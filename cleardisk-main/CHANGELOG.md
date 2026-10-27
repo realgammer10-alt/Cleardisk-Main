@@ -1,0 +1,181 @@
+# ClearDisk - Change Log
+
+All notable changes to ClearDisk are documented here.
+
+## [1.7.0] - 2026-03-18
+### Added
+- **Game Engines**: Unity Cache (Asset Store), Unity Hub Cache, Godot Export Templates, Godot Cache
+- **Version Managers**: nvm Node Versions, pyenv Versions (with `caution` risk — reinstall with `pyenv install`), mise Installs
+- **Python Ecosystem**: Poetry Cache (`~/Library/Caches/pypoetry`), pipenv Virtualenvs — merged from PR #13 by @IT-HONGREAT
+- **JVM/Build Tools**: SBT/Ivy Cache (`~/.ivy2/cache`), Gradle Wrapper distributions (`~/.gradle/wrapper/dists`), Bazel Cache (`~/.cache/bazel`)
+- **Cloud CLIs**: AWS CLI SSO cache (`~/.aws/sso/cache`)
+- Total cache paths increased from 44 to 63
+
+## [1.6.4] - 2026-03-05
+### Added
+- **Terraform/OpenTofu cache support** - Monitor `~/.terraform.d` plugin cache and per-project `.terraform` artifact directories (Issue #10, PR #11)
+- Terraform added as project type for artifact scanning (`main.tf` marker, `.terraform` artifacts)
+- Total cache paths increased from 43 to 44
+
+## [1.6.3] - 2026-03-04
+### Added
+- **AI tools cache support** - Claude Desktop, Claude Code, Ollama Models, ChatGPT Desktop, Cursor, Windsurf
+- **VS Code cache support** - VS Code Cache, CachedData, CachedExtensionVSIXs, Chromium Cache, Logs
+- Total cache paths increased from 32 to 43
+
+### Changed
+- Refactored cache path definitions into single source of truth (no more duplication between devCachePaths and scanDevCaches)
+
+### Fixed
+- Menu bar icon/text visibility on macOS Tahoe (always use template mode)
+- Tray shows free space instead of cleanable amount (was confusing on high usage)
+- Stale tray values fixed with Combine observer
+- Expand view title centered using ZStack overlay
+
+## [1.6.2] - 2026-03-02
+### Added
+- **Ruby ecosystem cache support** - rbenv versions, mise rubies, RVM, Bundler cache (PR #6 by @benoittgt)
+- **Expand/collapse view** - expand button next to tab bar hides header and summary card for full-height content list (Issue #8)
+- Total cache paths increased from 28 to 32
+
+### Changed
+- Popover height increased from 540 to 700px for better content visibility
+
+## [1.6.1] - 2026-03-02
+### Added
+- **Premium dark app icon** — Custom-designed icon with dark gradient, disk symbol, emerald progress arc, and sparkle effect
+- **Screenshot showcase** — Professional card-deck style showcase with labeled screenshots in README
+- **Animated HD banner** — Added to GitHub README header
+
+### Changed
+- Removed "path not readable — sizes may be incomplete" warning from UI (silently handled)
+- SEO-optimized GitHub topics (20 tags for better discoverability)
+- Updated repo description for better attention capture
+
+### Removed
+- QA.md purged from repository history
+
+## [1.6.0] - 2026-03-02
+### Added
+- **Clean Caches Screen** — Dedicated sub-screen with Safe Only / All (Including Risky) mode toggle. Shows full cache list, risky warning details, and one-tap clean button
+- **Clean Projects Screen** — Dedicated sub-screen with checkbox selection, Select All / Deselect All, filter by staleness (>30 days), and "Remove Selected" with total size
+- **Project Sort Options** — Sort project artifacts by Size (default), Date, or Name in the Projects tab
+
+### Changed
+- **Hero Card Redesign** — Now shows total reclaimable space (caches + projects + risky + trash) with a color-coded segmented breakdown bar. Two action buttons: "Clean Caches" and "Clean Projects"
+- Developer tab simplified — buttons removed from header (moved to hero card sub-screens)
+- DMG now includes Applications shortcut for drag-to-install
+
+## [1.5.0] - 2026-03-02
+### Added
+- **Project Artifacts Scanner** — New "Projects" tab finds stale `node_modules`, `target/`, `.build/`, `build/`, `vendor/` directories inside your project folders. Inspired by kondo (2,200⭐) and npkill (9,100⭐)
+- **11 Project Types Detected**: Node.js, Rust, Swift PM, Go, Gradle, Gradle (Kotlin), Maven, PHP/Composer, Ruby, Flutter/Dart, CMake
+- **Stale Detection**: Projects not modified for 30+ days are flagged with an orange warning
+- **Individual Cleanup**: Trash any project's build artifacts with one click
+- **Hub Card**: Hero card now shows project artifact total alongside dev caches and trash
+
+### Changed
+- Tab bar now has 4 tabs: Developer, Projects, Overview, Large Files
+- Clean confirmation dialog shows project type and path details
+
+## [1.4.0] - 2026-03-02
+### Added
+- **Cache Descriptions**: Every cache item now shows a human-readable description explaining what it is and whether it's safe to delete (inspired by npkill's 301-line description file)
+- **DerivedData Project Breakdown**: Xcode DerivedData entry now shows which projects are inside (e.g. "MyApp: 2.3 GB, OtherApp: 1.1 GB") by reading each subfolder's `info.plist → WorkspacePath` (technique from DevCleaner)
+- **Xcode Running Check**: When cleaning Xcode-related caches, a warning appears if Xcode is currently running ("Close Xcode first for best results")
+- **Competitor Analysis**: 5 open-source competitors analyzed (DevCleaner, XcodeCleaner-SwiftUI, kondo, npkill, mac-cleanup-py) — insights applied to ClearDisk
+
+### Changed
+- Each cache row now has a subtle description line below the path
+- Confirmation dialogs now include Xcode running warning when applicable
+- Tooltips on path line show full cache description on hover
+
+## [1.3.0] - 2026-03-01
+### Added
+- **Hero Dashboard**: Big, bold cleanable space display (28pt font) with dev cache + trash breakdown
+- **Quick Action Bar**: "Clean X safe caches (Y GB)" one-click button in hero card
+- **Visual Category Bars**: Color-coded proportional bars in Overview tab (each category gets unique color)
+- **Recovery Banner**: Green "Recovered X GB!" banner appears for 5 seconds after any cleanup
+- **Cumulative Savings**: Persistent "Total saved: X GB" counter in footer (survives app restart)
+- **Onboarding Screen**: First-launch welcome overlay with feature list and notification permission status
+- **Permission Checking**: Tracks notification permission state and inaccessible cache paths
+- **Permission Banner**: Warning banner when notifications are denied or paths unreadable
+- **Bundle Guard**: App no longer crashes when run via `swift run` (gracefully disables notifications)
+
+### Changed
+- Overview tab: categories now show proportional color bars instead of plain text rows
+- Hero card replaced the small "X cleanable" row with a prominent dashboard
+- Footer shows "Total saved" when user has cleaned anything, version number otherwise
+- `build_app.sh` now uses relative path (works from any directory)
+
+## [1.2.0] - 2026-02-28
+### Added
+- **Safe Delete (Trash)**: All cache cleaning now moves files to Trash instead of permanent delete
+  - Users can recover files for 30 days before Trash is emptied
+  - Fallback to removeItem only if trashItem fails (permission issue)
+  - "Empty Trash" still permanently deletes (as expected)
+- **Risk Levels**: Each developer cache now has a risk indicator
+  - 🟢 Safe — can be rebuilt with a single command (DerivedData, npm, pip, brew, etc.)
+  - 🟡 Caution — may need large re-download (Xcode Archives, Simulators)
+  - 🔴 Risky — may contain irreplaceable data (Docker data)
+  - Risk emoji shown next to each cache name in UI
+  - Confirmation dialogs now show risk description
+  - "Clean All" dialog warns about risky caches
+- **MIT License** added
+- **README.md** with feature comparison, installation, privacy statement
+- **QA.md** rewritten from 10 professional perspectives (551 lines of research-backed analysis)
+- Binary size: 590KB
+
+## [1.1.0] - 2026-02-28
+### Added
+- **Storage Forecast**: Tracks disk usage over time and predicts "disk full in X days" using linear regression
+  - Snapshots stored in UserDefaults (max 90 days, one per hour)
+  - Shows forecast in header: red warning ≤7 days, orange ≤30 days, info >30 days
+  - Shows "collecting data..." message while building initial dataset
+  - Daily growth rate displayed (bytes/day)
+- **Smart Suggestions**: Age-based cleanup recommendations for each dev cache
+  - "Not used for X days" badge on each cache entry
+  - ⚠️ red suggestion for caches >90 days old and >1GB
+  - 💡 yellow suggestion for caches >60 days old
+  - Suggestions only appear when actionable
+- Binary size: 585KB
+
+## [1.0.0] - 2026-02-28
+### Added
+- **Smart menu bar icon**: Color changes based on disk usage (normal=template, ≥80%=orange, ≥90%=red)
+- **Smart menu bar text**: Shows free space normally, shows cleanable amount with ♻️ when disk ≥80%
+- **macOS notifications**: Alert when disk reaches 80% or 90%, with cleanable amount in notification
+- **"Total Cleanable" summary card**: Green card showing total cleanable space (dev caches + trash) at top of popover
+- **"Clean All" button**: One-click button to clean all developer caches at once (with confirmation dialog)
+- Large file threshold lowered to 100MB (was 500MB) — catches more files
+
+### Fixed
+- Event monitor memory leak — global monitor now properly removed when popover closes
+- Notification spam prevention — only notifies once per threshold crossing, resets when usage drops below 75%
+
+### Changed
+- Popover height increased to 540px (from 520px) to accommodate cleanable summary
+- Binary size: 503KB (was 450KB due to UserNotifications framework)
+
+## [0.1.0] - 2026-02-28
+### Initial Release
+- Menu bar app with storage percentage icon
+- Disk space overview with category breakdown (10 directories)
+- Developer cache scanner (15 paths: Xcode DerivedData, Simulators, Archives, CocoaPods, Carthage, Homebrew, npm, Yarn, pip, Gradle, Docker, Composer, Go modules, Rust Cargo)
+- Large file finder (>500MB in Downloads/Documents/Desktop/Movies)
+- Quick cleanup actions: clean dev cache, empty trash, reveal in Finder
+- 3 tabs: Overview, Developer, Large Files
+- Color-coded storage bar (blue/orange/red by usage level)
+- Confirmation alerts before destructive actions
+- Version: 450KB binary, macOS 14+, LSUIElement=true (menu bar only)
+
+### Known Limitations (v0.1.0)
+- No smart alerts or notifications (**fixed in v1.0**)
+- No total cleanable summary (**fixed in v1.0**)
+- No "clean all" option (**fixed in v1.0**)
+- Large file threshold too high at 500MB (**fixed in v1.0**)
+- Event monitor memory leak (**fixed in v1.0**)
+
+### Roadmap (from QA.md research)
+- v1.1: Storage forecast (disk full prediction), smart suggestions based on file age
+- NOT planned: Sunburst/treemap (DaisyDisk niche), auto scheduler (trust issue), duplicate finder (crowded space)

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearDisk Blog - macOS Developer Disk Cleanup Guides</title>
+    <meta name="description" content="Guides and tips for freeing disk space on macOS as a developer. Clean Xcode DerivedData, node_modules, Docker cache, and more.">
+    <link rel="canonical" href="https://bysiber.github.io/cleardisk/blog/">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+            line-height: 1.7;
+            color: #1d1d1f;
+            background: #fff;
+        }
+        .container { max-width: 740px; margin: 0 auto; padding: 40px 20px; }
+        h1 { font-size: 2.2em; margin-bottom: 10px; }
+        .subtitle { color: #6e6e73; margin-bottom: 40px; font-size: 1.1em; }
+        
+        .post-card {
+            border: 1px solid #e5e5e7;
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .post-card:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+        .post-card h2 {
+            font-size: 1.3em;
+            margin-bottom: 8px;
+        }
+        .post-card h2 a {
+            color: #1d1d1f;
+            text-decoration: none;
+        }
+        .post-card h2 a:hover { color: #0071e3; }
+        .post-card .meta {
+            color: #6e6e73;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+        }
+        .post-card .excerpt {
+            color: #424245;
+            font-size: 0.95em;
+        }
+        .post-card .tags {
+            margin-top: 12px;
+        }
+        .post-card .tag {
+            display: inline-block;
+            background: #f5f5f7;
+            color: #6e6e73;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-right: 5px;
+        }
+
+        .breadcrumb { font-size: 0.85em; color: #6e6e73; margin-bottom: 30px; }
+        .breadcrumb a { color: #0071e3; text-decoration: none; }
+
+        .cta-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin: 35px 0;
+            text-align: center;
+        }
+        .cta-box h3 { color: white; font-size: 1.3em; margin-bottom: 10px; }
+        .cta-box p { color: rgba(255,255,255,0.9); margin-bottom: 15px; }
+        .cta-box a {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 10px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer { text-align: center; padding: 40px 20px; color: #6e6e73; font-size: 0.85em; border-top: 1px solid #e5e5e7; margin-top: 50px; }
+        footer a { color: #0071e3; text-decoration: none; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.6em; }
+            .container { padding: 20px 15px; }
+            .post-card { padding: 18px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../">ClearDisk</a> / Blog
+        </div>
+
+        <h1>ClearDisk Blog</h1>
+        <p class="subtitle">Guides for freeing disk space on macOS as a developer</p>
+
+        <div class="post-card">
+            <h2><a href="ruby-gems-bundler-cleanup-mac.html">Ruby, Gems & Bundler Cache Cleanup on Mac — Reclaim 2-15GB+</a></h2>
+            <div class="meta">March 2025 -- 10 min read</div>
+            <p class="excerpt">Ruby versions, gem caches, Bundler vendor directories, documentation files, and Rails logs can consume 2-15GB+ on macOS. Complete guide to cleaning RubyGems, rbenv, chruby, rvm, and Rails projects.</p>
+            <div class="tags">
+                <span class="tag">Ruby</span>
+                <span class="tag">RubyGems</span>
+                <span class="tag">Bundler</span>
+                <span class="tag">rbenv</span>
+                <span class="tag">Rails</span>
+                <span class="tag">CocoaPods</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="git-cleanup-mac.html">Git Repository Cleanup on Mac — Reclaim 2-20GB+ from .git Directories</a></h2>
+            <div class="meta">March 2025 -- 11 min read</div>
+            <p class="excerpt">Git repositories accumulate large .git directories with old objects, stale branches, LFS data, and orphaned worktrees. Complete guide to git gc, reflog cleanup, shallow clones, git maintenance, and bulk repo optimization on macOS.</p>
+            <div class="tags">
+                <span class="tag">Git</span>
+                <span class="tag">git gc</span>
+                <span class="tag">Git LFS</span>
+                <span class="tag">Shallow Clones</span>
+                <span class="tag">git maintenance</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="ide-cache-cleanup-mac.html">VS Code & JetBrains IDE Cache Cleanup on Mac — Reclaim 5-30GB+</a></h2>
+            <div class="meta">March 2025 -- 11 min read</div>
+            <p class="excerpt">VS Code, Cursor, IntelliJ IDEA, PyCharm, WebStorm, Sublime Text, Neovim, and Zed silently accumulate 5-30GB+ of caches, logs, workspace data, and extensions. Complete guide to auditing and cleaning every IDE cache on macOS.</p>
+            <div class="tags">
+                <span class="tag">VS Code</span>
+                <span class="tag">JetBrains</span>
+                <span class="tag">Cursor</span>
+                <span class="tag">Neovim</span>
+                <span class="tag">Sublime Text</span>
+                <span class="tag">Zed</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="version-manager-cache-cleanup-mac.html">Version Manager Cache Cleanup on Mac — nvm, pyenv, rbenv, SDKMAN, asdf, Volta</a></h2>
+            <div class="meta">March 2025 -- 12 min read</div>
+            <p class="excerpt">Version managers like nvm, pyenv, rbenv, SDKMAN, asdf, and Volta can accumulate 5-30GB+ of old runtime versions on your Mac. Complete guide to auditing and cleaning each one, with an automation script.</p>
+            <div class="tags">
+                <span class="tag">nvm</span>
+                <span class="tag">pyenv</span>
+                <span class="tag">rbenv</span>
+                <span class="tag">SDKMAN</span>
+                <span class="tag">asdf</span>
+                <span class="tag">Volta</span>
+                <span class="tag">rustup</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="conda-anaconda-cache-cleanup-mac.html">Conda & Anaconda Cache Cleanup on Mac — Reclaim 10-40GB+</a></h2>
+            <div class="meta">March 2025 -- 10 min read</div>
+            <p class="excerpt">Conda environments, package caches, and Anaconda installations can consume 10-40GB+ on your Mac. Complete guide to auditing pkgs/, cleaning environments, migrating to Miniconda, and automating cleanup.</p>
+            <div class="tags">
+                <span class="tag">Conda</span>
+                <span class="tag">Anaconda</span>
+                <span class="tag">Miniconda</span>
+                <span class="tag">Mamba</span>
+                <span class="tag">Data Science</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="macos-ci-runner-disk-cleanup.html">macOS CI Runner Disk Space Cleanup — GitHub Actions Self-Hosted Runner Guide</a></h2>
+            <div class="meta">March 2025 -- 12 min read</div>
+            <p class="excerpt">macOS self-hosted GitHub Actions runners fill up fast. Complete guide to cleaning Xcode DerivedData, Docker images, Homebrew, npm/Gradle caches, and runner artifacts — with an automated weekly cleanup workflow.</p>
+            <div class="tags">
+                <span class="tag">GitHub Actions</span>
+                <span class="tag">CI Runner</span>
+                <span class="tag">Self-Hosted</span>
+                <span class="tag">Xcode</span>
+                <span class="tag">Docker</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="ai-ml-model-cache-cleanup-mac.html">AI & ML Model Disk Space Cleanup on Mac -- Ollama, HuggingFace, PyTorch Cache Guide</a></h2>
+            <div class="meta">March 2026 -- 10 min read</div>
+            <p class="excerpt">AI models and ML caches from Ollama, HuggingFace, PyTorch, and LLM tools can consume 50-200GB+ on macOS. Complete guide to finding, managing, and cleaning AI model disk usage.</p>
+            <div class="tags">
+                <span class="tag">Ollama</span>
+                <span class="tag">HuggingFace</span>
+                <span class="tag">PyTorch</span>
+                <span class="tag">LLM</span>
+                <span class="tag">AI Models</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="deno-bun-cache-cleanup-mac.html">Deno & Bun Cache Cleanup on Mac -- Free Disk Space from Modern JS Runtimes</a></h2>
+            <div class="meta">March 2026 -- 8 min read</div>
+            <p class="excerpt">Deno module cache, Bun install cache, and npm compatibility artifacts can consume several GB on macOS. Complete guide to finding and cleaning caches from modern JavaScript runtimes.</p>
+            <div class="tags">
+                <span class="tag">Deno</span>
+                <span class="tag">Bun</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">Cache Cleanup</span>
+                <span class="tag">node_modules</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="terraform-opentofu-cache-cleanup-mac.html">Terraform & OpenTofu Cache Cleanup on Mac -- Free 5-20GB of Disk Space</a></h2>
+            <div class="meta">July 2025 -- 10 min read</div>
+            <p class="excerpt">Terraform provider plugins, .terragrunt-cache directories, and module caches can consume 5-20GB on macOS. Complete guide to enabling plugin cache, cleaning .terraform directories, and managing IaC disk usage.</p>
+            <div class="tags">
+                <span class="tag">Terraform</span>
+                <span class="tag">OpenTofu</span>
+                <span class="tag">Terragrunt</span>
+                <span class="tag">Provider Cache</span>
+                <span class="tag">IaC</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="flutter-dart-cache-cleanup-mac.html">Flutter & Dart Cache Cleanup on Mac -- Free 10-30GB of Disk Space</a></h2>
+            <div class="meta">July 2025 -- 12 min read</div>
+            <p class="excerpt">Flutter SDK, Dart pub cache, build artifacts, iOS simulators, and Android SDK caches can consume 10-30GB on macOS. Complete guide to auditing and cleaning every Flutter-related cache directory.</p>
+            <div class="tags">
+                <span class="tag">Flutter</span>
+                <span class="tag">Dart</span>
+                <span class="tag">pub cache</span>
+                <span class="tag">iOS Simulator</span>
+                <span class="tag">Android SDK</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="xcode-simulators-device-support-cleanup-mac.html">Xcode Simulators & DeviceSupport Taking Up 50GB+ on Mac?</a></h2>
+            <div class="meta">July 2025 -- 8 min read</div>
+            <p class="excerpt">iOS Simulators, DeviceSupport files, CoreSimulator caches, and Archives can consume 20-80GB on macOS. Complete guide to deleting old simulator runtimes, cleaning device support files, and reclaiming massive Xcode disk space.</p>
+            <div class="tags">
+                <span class="tag">Xcode</span>
+                <span class="tag">iOS Simulator</span>
+                <span class="tag">DeviceSupport</span>
+                <span class="tag">CoreSimulator</span>
+                <span class="tag">Archives</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="free-disk-space-mac-developer.html">How to Free 50GB+ on Your Mac as a Developer (2025 Guide)</a></h2>
+            <div class="meta">January 2025 -- 10 min read</div>
+            <p class="excerpt">Comprehensive guide covering 10 major developer cache locations on macOS. Learn exactly where Xcode, Node.js, Docker, Homebrew, pip, CocoaPods, Cargo, and Gradle store their caches and how to safely clean them.</p>
+            <div class="tags">
+                <span class="tag">macOS</span>
+                <span class="tag">Xcode</span>
+                <span class="tag">node_modules</span>
+                <span class="tag">Docker</span>
+                <span class="tag">Homebrew</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="xcode-disk-space-cleanup-guide.html">Xcode Taking Up Too Much Disk Space? Complete 2025 Cleanup Guide</a></h2>
+            <div class="meta">January 2025 -- 8 min read</div>
+            <p class="excerpt">Deep-dive into every Xcode-related cache: DerivedData, iOS Device Support, Archives, Simulators, CoreSimulator, Toolchains, and Swift Package Manager. Includes a summary table and a one-liner cleanup script.</p>
+            <div class="tags">
+                <span class="tag">Xcode</span>
+                <span class="tag">DerivedData</span>
+                <span class="tag">iOS</span>
+                <span class="tag">Simulators</span>
+                <span class="tag">Swift</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="clean-node-modules-mac.html">How to Find and Delete All node_modules on Your Mac (2025 Guide)</a></h2>
+            <div class="meta">January 2025 -- 6 min read</div>
+            <p class="excerpt">Find every node_modules directory on your Mac, see how much space they use, and safely delete them. Covers selective deletion, npm/yarn/pnpm cache cleanup, tools comparison, and prevention strategies.</p>
+            <div class="tags">
+                <span class="tag">node_modules</span>
+                <span class="tag">npm</span>
+                <span class="tag">yarn</span>
+                <span class="tag">pnpm</span>
+                <span class="tag">Node.js</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="docker-disk-space-cleanup-mac.html">Docker Taking Up Too Much Disk Space on Mac? Complete Fix Guide</a></h2>
+            <div class="meta">January 2025 -- 10 min read</div>
+            <p class="excerpt">Docker Desktop can consume 20-200GB+ on your Mac. Learn how to reclaim space with docker system prune, shrink the Docker.raw file, clean build cache, manage volumes, and automate weekly cleanup.</p>
+            <div class="tags">
+                <span class="tag">Docker</span>
+                <span class="tag">Docker.raw</span>
+                <span class="tag">Build Cache</span>
+                <span class="tag">Containers</span>
+                <span class="tag">macOS</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="homebrew-cleanup-guide-mac.html">Homebrew Taking Up Too Much Space? Complete Cleanup Guide</a></h2>
+            <div class="meta">January 2025 -- 8 min read</div>
+            <p class="excerpt">Homebrew can consume 5-30GB+ on your Mac with old formula versions, cached downloads, and orphaned dependencies. Learn brew cleanup, autoremove, cache management, and automation.</p>
+            <div class="tags">
+                <span class="tag">Homebrew</span>
+                <span class="tag">brew cleanup</span>
+                <span class="tag">Cache</span>
+                <span class="tag">Dependencies</span>
+                <span class="tag">macOS</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="maven-sbt-cache-cleanup-mac.html">Maven .m2 Repository Taking Up Too Much Disk Space on Mac?</a></h2>
+            <div class="meta">July 2025 -- 9 min read</div>
+            <p class="excerpt">Maven's ~/.m2/repository, sbt caches, Coursier, and Kotlin/Native can silently consume 5-30GB on macOS. Complete guide to auditing and cleaning JVM build tool caches, SNAPSHOTs, Ivy cache, and target/ directories.</p>
+            <div class="tags">
+                <span class="tag">Maven</span>
+                <span class="tag">sbt</span>
+                <span class="tag">~/.m2</span>
+                <span class="tag">Kotlin</span>
+                <span class="tag">JVM</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="npm-yarn-pnpm-cache-cleanup-mac.html">npm, Yarn & pnpm Cache Taking Up Too Much Disk Space on Mac?</a></h2>
+            <div class="meta">July 2025 -- 9 min read</div>
+            <p class="excerpt">JavaScript package manager caches and node_modules can consume 20-80GB on macOS. Complete guide to auditing and cleaning npm cache, Yarn cache, pnpm store, node_modules, and Node.js version managers.</p>
+            <div class="tags">
+                <span class="tag">npm</span>
+                <span class="tag">Yarn</span>
+                <span class="tag">pnpm</span>
+                <span class="tag">node_modules</span>
+                <span class="tag">JavaScript</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="cocoapods-cache-cleanup-mac.html">CocoaPods Cache & Pods Taking Up Too Much Disk Space on Mac?</a></h2>
+            <div class="meta">July 2025 -- 8 min read</div>
+            <p class="excerpt">CocoaPods caches, Pods directories, and spec repos can consume 5-30GB on macOS. Learn how to audit pod cache, clean spec repos, remove stale Pods folders, migrate to Swift Package Manager, and automate CocoaPods disk cleanup.</p>
+            <div class="tags">
+                <span class="tag">CocoaPods</span>
+                <span class="tag">iOS</span>
+                <span class="tag">Pods</span>
+                <span class="tag">Swift Package Manager</span>
+                <span class="tag">Xcode</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="gradle-cache-cleanup-mac.html">Gradle Cache Taking Up Too Much Disk Space on Mac? Complete Cleanup Guide</a></h2>
+            <div class="meta">July 2025 -- 9 min read</div>
+            <p class="excerpt">Gradle caches, wrapper distributions, and build outputs can consume 10-50GB on macOS. Learn how to audit ~/.gradle, clean daemon data, remove old wrapper versions, and automate Gradle disk cleanup.</p>
+            <div class="tags">
+                <span class="tag">Gradle</span>
+                <span class="tag">Android</span>
+                <span class="tag">~/.gradle</span>
+                <span class="tag">Build Cache</span>
+                <span class="tag">Wrapper</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="go-module-cache-cleanup-mac.html">Go GOPATH & Module Cache Taking Up Too Much Disk Space on Mac?</a></h2>
+            <div class="meta">July 2025 -- 8 min read</div>
+            <p class="excerpt">Go module cache, build cache, and old toolchains can silently consume 10-30GB on macOS. Learn how to audit and clean GOMODCACHE, GOCACHE, GOPATH, old SDK versions, vendor directories, and automate Go disk management.</p>
+            <div class="tags">
+                <span class="tag">Go</span>
+                <span class="tag">GOPATH</span>
+                <span class="tag">GOCACHE</span>
+                <span class="tag">go clean</span>
+                <span class="tag">Module Cache</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="rust-cargo-cache-cleanup-mac.html">Rust target/ and Cargo Cache Taking Up Too Much Space? Complete Cleanup Guide</a></h2>
+            <div class="meta">January 2025 -- 8 min read</div>
+            <p class="excerpt">Rust's target/ directory can reach 5-20GB per project, and the Cargo registry cache adds more. Learn how to audit, clean, and automate Rust disk space management with cargo-sweep, cargo-cache, sccache, and more.</p>
+            <div class="tags">
+                <span class="tag">Rust</span>
+                <span class="tag">Cargo</span>
+                <span class="tag">cargo-sweep</span>
+                <span class="tag">target/</span>
+                <span class="tag">sccache</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="python-pip-cache-cleanup-mac.html">Python & pip Taking Up Too Much Space on Mac? Complete Cleanup Guide</a></h2>
+            <div class="meta">January 2025 -- 9 min read</div>
+            <p class="excerpt">Python environments, pip cache, conda, virtualenvs, and __pycache__ can consume 10-50GB+. Learn how to audit and clean pip cache, conda environments, pyenv versions, Poetry cache, Jupyter data, and scattered .venv directories.</p>
+            <div class="tags">
+                <span class="tag">Python</span>
+                <span class="tag">pip</span>
+                <span class="tag">conda</span>
+                <span class="tag">virtualenv</span>
+                <span class="tag">pyenv</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <h2><a href="mac-disk-cleaner-comparison.html">ClearDisk vs CleanMyMac vs DaisyDisk -- Best Mac Disk Cleaner (2025)</a></h2>
+            <div class="meta">January 2025 -- 8 min read</div>
+            <p class="excerpt">Honest comparison of Mac disk cleaners: ClearDisk (free, open-source) vs CleanMyMac X ($40-90/yr) vs DaisyDisk ($10) vs OnyX vs DevCleaner. Features, pricing, developer focus, and when to use each.</p>
+            <div class="tags">
+                <span class="tag">Comparison</span>
+                <span class="tag">CleanMyMac</span>
+                <span class="tag">DaisyDisk</span>
+                <span class="tag">OnyX</span>
+                <span class="tag">Free</span>
+            </div>
+        </div>
+
+        <div class="cta-box">
+            <h3>Skip the Terminal Commands</h3>
+            <p>ClearDisk detects and cleans all these caches automatically. Free, open-source macOS menu bar app.</p>
+            <a href="https://github.com/bysiber/cleardisk">Get ClearDisk</a>
+        </div>
+    </div>
+
+    <footer>
+        <p><a href="https://github.com/bysiber/cleardisk">ClearDisk</a> -- Free, open-source disk cleanup for macOS developers</p>
+        <p style="margin-top: 8px;"><a href="../">Home</a> | <a href="https://github.com/bysiber/cleardisk">GitHub</a></p>
+    </footer>
+</body>
+</html>
